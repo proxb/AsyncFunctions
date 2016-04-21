@@ -1,4 +1,4 @@
-﻿Function Test-ConnectionAsync {
+Function Test-ConnectionAsync {
     <#
         .SYNOPSIS
             Performs a ping test asynchronously 
@@ -61,6 +61,7 @@
         [byte[]]$Buffer
     )
     Begin {
+        
         If (-NOT $PSBoundParameters.ContainsKey('Buffer')) {
             $Buffer = 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 
             0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69
@@ -84,25 +85,26 @@
         }
     }
     End {
-        $Computername | ForEach {
-            $Task = ForEach ($Computer in $Computername) {
-                [pscustomobject] @{
-                    Computername = $Computer
-                    Task = (New-Object System.Net.NetworkInformation.Ping).SendPingAsync($Computer,$Timeout, $Buffer, $PingOptions)
-                }
-            }        
-        }
+        $Task = ForEach ($Computer in $Computername) {
+            [pscustomobject] @{
+                Computername = $Computer
+                Task = (New-Object System.Net.NetworkInformation.Ping).SendPingAsync($Computer,$Timeout, $Buffer, $PingOptions)
+            }
+        }        
         Try {
             [void][Threading.Tasks.Task]::WaitAll($Task.Task)
         } Catch {}
         $Task | ForEach {
-            $Result = If ($_.Task.IsFaulted) {
-                $_.Task.Exception.InnerException.InnerException.Message
+            If ($_.Task.IsFaulted) {
+                $Result = $_.Task.Exception.InnerException.InnerException.Message
+                $IPAddress = $Null
             } Else {
-                $_.Task.Result.Status
+                $Result = $_.Task.Result.Status
+                $IPAddress = $_.task.Result.Address.ToString()
             }
             $Object = [pscustomobject]@{
                 Computername = $_.Computername
+                IPAddress = $IPAddress
                 Result = $Result
             }
             $Object.pstypenames.insert(0,'Net.AsyncPingResult')
