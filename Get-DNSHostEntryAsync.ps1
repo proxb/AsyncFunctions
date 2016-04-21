@@ -43,21 +43,19 @@
         }
     }
     End {
-        $Computername | ForEach {
-            $Task = ForEach ($Computer in $Computername) {
-                If (([bool]($Computer -as [ipaddress]))) {
-                    [pscustomobject] @{
-                        Computername = $Computer                    
-                        Task = [system.net.dns]::GetHostEntryAsync($Computer)
-                    }                 
-                } Else {
-                    [pscustomobject] @{
-                        Computername = $Computer                    
-                        Task = [system.net.dns]::GetHostAddressesAsync($Computer)
-                    }                
-                }
-            }        
-        }
+        $Task = ForEach ($Computer in $Computername) {
+            If (([bool]($Computer -as [ipaddress]))) {
+                [pscustomobject] @{
+                    Computername = $Computer                    
+                    Task = [system.net.dns]::GetHostEntryAsync($Computer)
+                }                 
+            } Else {
+                [pscustomobject] @{
+                    Computername = $Computer                    
+                    Task = [system.net.dns]::GetHostAddressesAsync($Computer)
+                }                
+            }
+        }        
         Try {
             [void][Threading.Tasks.Task]::WaitAll($Task.Task)
         } Catch {}
