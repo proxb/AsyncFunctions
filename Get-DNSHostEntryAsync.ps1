@@ -20,7 +20,23 @@
             Net.AsyncGetHostResult
 
         .EXAMPLE
-            Get-DNSHostEntryAsync -Computername 
+            Get-DNSHostEntryAsync -Computername google.com,prox-hyperv,bing.com, github.com, powershellgallery.com, powershell.org
+
+            Computername          Result
+            ------------          ------
+            google.com            216.58.218.142
+            prox-hyperv           192.168.1.116
+            bing.com              204.79.197.200
+            github.com            192.30.252.121
+            powershellgallery.com 191.234.42.116
+            powershell.org        {104.28.15.25, 104.28.14.25}
+
+        .EXAMPLE
+            Get-DNSHostEntryAsync -Computername 216.58.218.142
+
+            Computername   Result
+            ------------   ------
+            216.58.218.142 dfw25s08-in-f142.1e100.net
     #>
     #Requires -Version 3.0
     [OutputType('Net.AsyncGetHostResult')]
