@@ -1,7 +1,7 @@
 This is a branch off from Boe Prox's Test-ConnectionAsync. 
 It is a wrapper that uses Boe's underlying ASync function to ping all hosts on a designated subnet. 
 
-Without a parameter the whole local subnet is pinged and results are returned. It is super quick hence the name :- )
+Without a parameter the whole local subnet is pinged and results are returned. It is super quick . . .
 
 ```
 PS C:\Windows\system32> Measure-Command {Ping-Subnet}
