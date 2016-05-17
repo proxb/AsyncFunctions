@@ -5,7 +5,6 @@ Without a parameter the whole local subnet is pinged and results are returned. I
 
 PS C:\Windows\system32> Measure-Command {Ping-Subnet}
 
-
 Days              : 0
 Hours             : 0
 Minutes           : 0
