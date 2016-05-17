@@ -18,6 +18,7 @@ TotalMinutes      : 0.0613257133333333
 TotalSeconds      : 3.6795428
 TotalMilliseconds : 3679.5428
 
+.EXAMPLE
     PS OneDrive:\> Ping-Subnet
         Computername    Result
         ------------    ------
