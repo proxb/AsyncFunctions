@@ -60,7 +60,7 @@ Function Ping-Subnet{
     Begin{ 
         If (-Not($subnet)){
             Write-Verbose "Checking OS Version"
-            If((Get-CimInstance -ClassName Win32_OperatingSystem).Version -ge 6.2){
+        If(([System.Version] (Get-CimInstance -ClassName Win32_OperatingSystem).Version) -ge [System.Version] 6.2){
                 Write-Verbose "Checking local subnet"
                 $myIP = Get-NetIPConfiguration | Select IPv4Address
                 $octect = $myIP.IPv4Address.IPv4Address -split "\." # backslash is escape char
